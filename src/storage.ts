@@ -1,5 +1,5 @@
 import type { Invoice } from './types';
-import { stellarAccountBytes } from '@pollar/core';
+import { isValidStellarAccount } from './validation';
 
 const KEY = 'paylink.invoices.v1';
 const validStatuses = new Set(['PENDING', 'PAID', 'FAILED']);
@@ -12,7 +12,7 @@ function validInvoice(value: unknown): value is Invoice {
     typeof item.customerName === 'string' && typeof item.amount === 'string' &&
     Number.isFinite(Number(item.amount)) && Number(item.amount) > 0 &&
     item.currency === 'USDC' && typeof item.recipientAddress === 'string' &&
-    stellarAccountBytes(item.recipientAddress) !== null &&
+    isValidStellarAccount(item.recipientAddress) &&
     typeof item.createdAt === 'string' && Number.isFinite(Date.parse(item.createdAt)) &&
     (item.confirmedAt === undefined || (typeof item.confirmedAt === 'string' && Number.isFinite(Date.parse(item.confirmedAt)))) &&
     validStatuses.has(String(item.status));
