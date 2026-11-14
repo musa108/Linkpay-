@@ -17,7 +17,7 @@ PayLink is a Vite-served React SPA. Pollar React provides wallet authentication 
 4. Checkout obtains the authenticated client from `usePollar()`.
 5. `sendPayment` submits the Stellar issued-asset transfer.
 6. The app extracts the returned transaction hash and polls `getTxStatus`.
-7. `SUCCESS` updates the invoice to `PAID`; `FAILED` updates it to `FAILED`; a still-pending result remains pending.
+7. The returned transaction ID is stored immediately. `SUCCESS` updates the invoice to `PAID`; `FAILED` updates it to `FAILED`; a still-pending result remains pending and blocks another attempt in that browser.
 
 ## Trust boundaries
 - Publishable Pollar key may be exposed in the browser.
@@ -25,6 +25,7 @@ PayLink is a Vite-served React SPA. Pollar React provides wallet authentication 
 - `VITE_STELLAR_USDC_ISSUER` is public asset configuration, not a secret.
 - localStorage is user-controlled and is not a trustworthy payment ledger.
 - Client-side transaction polling is useful for a demo but not sufficient as production settlement verification.
+- `sendPayment` and `getTxStatus` plus the typed `SubmitOutcome` variants were checked against installed Pollar 0.12.0 declarations. No real testnet transaction has been verified. A `cosign_pending` outcome is stored as awaiting approval and blocks repeat submission; this MVP does not yet resume or query that separate co-sign flow.
 
 ## Production evolution
 - Add API and database for invoice creation and ownership.

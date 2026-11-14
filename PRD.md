@@ -1,4 +1,4 @@
-# PayLink — Product Requirements Document
+﻿# PayLink — Product Requirements Document
 
 ## Product summary
 PayLink lets independent businesses create shareable USDC payment requests and collect payment through a Pollar-connected wallet on Stellar.
